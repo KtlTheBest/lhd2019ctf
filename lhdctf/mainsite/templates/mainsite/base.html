@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>{% block title %}LHD CTF{% endblock %}</title>
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
+        <link rel="stylesheet" href="{% static 'style.css' %}">
+    </head>
+    <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+            {% block navbar %}
+                <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url 'mainsite:profile' %}">H3ll0, {{ user.username }}</a></li>
+                    <li><a href="{% url 'mainsite:logout' %}">Logout</a></li>
+                    {% endif %}
+                </ul>
+            {% endblock %}
+            </div>
+        </nav>
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <link rel="script" href="{% static 'js/boostrap.js' %}">
+    </body>
+</html>
