@@ -1,0 +1,11 @@
+{% extends 'mainsite/base.html' %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<form action="{% url 'login' %}" method="post">
+    {% include 'mainsite/form_template.html' %}
+    <div><input class="btn btn-default" type="submit" value="Log In"></div>
+{% if error %}
+<p style="color: red">{{ error }}</p>
+{% endif %}
+{% endblock %}

@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.template import RequestContext
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from django.views import generic
+
+from django.contrib.auth import login, authenticate, logout
 
 from .forms import LoginForm
 
@@ -13,7 +15,7 @@ class IndexPage(generic.View):
     def get(self, request):
         return render(request, self.template_name)
 
-class LoginView(generic.View):
+class LoginPage(generic.View):
 
     form = LoginForm
     template_name = 'mainsite/login.html'
@@ -30,7 +32,7 @@ class LoginView(generic.View):
 
         if user is not None and user.is_active:
             login(request, user)
-            return redirect('mainsite:admin-page')
+            return redirect('profile')
         else:
             return render(request, self.template_name, {'error': "Wrong Username/Password!", 'form': self.form})
 

@@ -15,8 +15,8 @@
             {% block navbar %}
                 <ul class="nav navbar-nav navbar-right">
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'mainsite:profile' %}">H3ll0, {{ user.username }}</a></li>
-                    <li><a href="{% url 'mainsite:logout' %}">Logout</a></li>
+                    <li><a href="{% url 'profile' %}">H3ll0, {{ user.username }}</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
                     {% endif %}
                 </ul>
             {% endblock %}
