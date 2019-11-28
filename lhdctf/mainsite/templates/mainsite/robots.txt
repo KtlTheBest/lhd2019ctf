@@ -1,0 +1,3 @@
+User-agent:*
+Disallow: /treasure.zip
+flag{D0nt-F0rg3t-About-R0b0t5}
