@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import os
 from django.template import RequestContext
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 
 from django.core.exceptions import PermissionDenied
 
@@ -47,6 +47,8 @@ class LoginPage(generic.View):
 class LogoutView(generic.View):
     def get(self, request):
         logout(request)
+        response = HttpResponseRedirect('index')
+        response.delete_cookie('loggedIn')
         return redirect('index') # maybe some special redirect?
 
 class ProfileView(generic.View):
