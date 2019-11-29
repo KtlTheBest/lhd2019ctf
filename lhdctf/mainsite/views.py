@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import os
 from django.template import RequestContext
 from django.shortcuts import render, redirect
+from django.http import HttpResponse, Http404
+
+from django.core.exceptions import PermissionDenied
 
 from django.views import generic
+from django.utils.encoding import smart_str
+from wsgiref.util import FileWrapper
 
 from django.contrib.auth import login, authenticate, logout
 
@@ -32,14 +38,52 @@ class LoginPage(generic.View):
 
         if user is not None and user.is_active:
             login(request, user)
-            return redirect('profile')
+            redResponse = redirect('profile')
+            redResponse.set_cookie('loggedIn', username)
+            return redResponse
         else:
             return render(request, self.template_name, {'error': "Wrong Username/Password!", 'form': self.form})
 
 class LogoutView(generic.View):
     def get(self, request):
         logout(request)
-        return redirect('mainsite:index') # maybe some special redirect?
+        return redirect('index') # maybe some special redirect?
+
+class ProfileView(generic.View):
+
+    template_name = "mainsite/profile.html"
+    template_oracle = "mainsite/profile_oracle.html"
+
+    def get(self, request):
+        if not request.user.is_authenticated:
+            raise PermissionDenied()
+
+        try:
+            loggedIn = request.COOKIES['loggedIn']
+            if loggedIn == 'KtlTheBest'.lower():
+                return render(request, self.template_oracle)
+            else:
+                return render(request, self.template_name)
+        except:
+            return render(request, self.template_name)
+
+class TreasureView(generic.View):
+
+    treasure_path = 'mainsite/static/treasure.zip'
+
+    def get(self, request):
+        try:
+            loggedIn = request.COOKIES['loggedIn']
+            if loggedIn == "KtlTheBest".lower():
+                wrapper = FileWrapper(file(self.treasure_path))
+                response = HttpResponse(wrapper, content_type='text/plain')
+                response['Content-Disposition'] = 'attachment; filename=%s' % os.path.basename(self.treasure_path)
+                response['Content-Length'] = os.path.getsize(self.treasure_path)
+                return response
+            else:
+                raise Http404
+        except:
+            raise Http404
 
 # Create your views here.
 
