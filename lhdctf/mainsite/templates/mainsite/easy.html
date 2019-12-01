@@ -1,0 +1,7 @@
+{% extends 'mainsite/base.html' %}
+{% block content %}
+<form action="{% url 'easy' %}" method="post">
+    <input disabled="." type="submit" value="Get Flag" name="attempt">
+    {% csrf_token %}
+</form>
+{% endblock %}

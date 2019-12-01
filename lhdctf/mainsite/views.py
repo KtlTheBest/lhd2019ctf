@@ -21,6 +21,16 @@ class IndexPage(generic.View):
     def get(self, request):
         return render(request, self.template_name)
 
+class EasyFlagView(generic.View):
+    template_name = 'mainsite/easy.html'
+    template_flag = 'mainsite/easy_flag.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request):
+        return render(request, self.template_flag)
+
 class LoginPage(generic.View):
 
     form = LoginForm

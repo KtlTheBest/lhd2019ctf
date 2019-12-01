@@ -1,4 +1,4 @@
-flag = "Knowing-JavaScript-Doesnt-Hurt-Much"
+flag = "flag{Knowing-JavaScript-Doesnt-Hurt-Much}"
 res = []
 
 for i, c in enumerate(flag):
