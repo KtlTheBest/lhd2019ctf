@@ -81,20 +81,20 @@ class ProfileView(generic.View):
 
 class TreasureView(generic.View):
 
-    treasure_path = 'mainsite/static/treasure.zip'
+    treasure_path = 'mainsite/secret.zip'
 
     def get(self, request):
         try:
             loggedIn = request.COOKIES['loggedIn']
-            if loggedIn == "KtlTheBest".lower():
-                wrapper = FileWrapper(file(self.treasure_path))
+            if loggedIn.lower() == "KtlTheBest".lower():
+                wrapper = FileWrapper(open(self.treasure_path, "rb"))
                 response = HttpResponse(wrapper, content_type='text/plain')
                 response['Content-Disposition'] = 'attachment; filename=%s' % os.path.basename(self.treasure_path)
                 response['Content-Length'] = os.path.getsize(self.treasure_path)
                 return response
             else:
                 raise Http404
-        except:
+        except Exception as e:
             raise Http404
 
 # Create your views here.
